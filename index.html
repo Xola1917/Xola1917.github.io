@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xola Mtintweni | Data Science Freelancer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+  :root {
+    --bg:        #0a0f1a;
+    --bg2:       #0d1526;
+    --card:      #111b2e;
+    --card2:     #152035;
+    --border:    rgba(0,210,210,0.12);
+    --teal:      #00d2d2;
+    --teal2:     #00a8a8;
+    --gold:      #f0b429;
+    --red:       #e05263;
+    --text:      #e8f0f8;
+    --muted:     #7a9ab5;
+    --ink:       #0a0f1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* floating dots background */
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(0,210,210,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(0,168,168,0.04) 0%, transparent 70%);
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(10,15,26,0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 30px rgba(0,0,0,0.4); }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.2rem;
+    color: var(--teal); text-decoration: none; letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--text); }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--muted); text-decoration: none; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+
+  .nav-hire {
+    background: var(--teal) !important;
+    color: var(--ink) !important;
+    padding: 0.45rem 1.2rem; border-radius: 4px;
+    font-weight: 700 !important; font-size: 0.82rem !important;
+    transition: background 0.2s !important; letter-spacing: 0.05em !important;
+  }
+  .nav-hire:hover { background: var(--teal2) !important; color: var(--ink) !important; }
+
+  /* hamburger */
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px; z-index: 300;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--text); border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none; position: fixed; inset: 0;
+    background: var(--bg); z-index: 250;
+    flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 700; color: var(--text);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--teal); }
+
+  @media (max-width: 768px) {
+    .hamburger { display: flex; }
+    .nav-links { display: none; }
+  }
+
+  /* ─── FLOATING DOTS DECORATION ─── */
+  .dot {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    animation: floatDot linear infinite;
+  }
+  @keyframes floatDot {
+    0%   { transform: translateY(0) scale(1); opacity: 0.6; }
+    50%  { transform: translateY(-20px) scale(1.1); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 5% 5rem;
+    position: relative; overflow: hidden; gap: 3rem;
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1px solid var(--teal); color: var(--teal);
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 50px;
+    margin-bottom: 1.6rem; animation: fadeUp 0.5s ease both;
+  }
+  .hero-tag::before {
+    content: ''; display: inline-block; width: 7px; height: 7px;
+    background: var(--teal); border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.4; transform:scale(0.7); } }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 5.5vw, 5rem);
+    font-weight: 800; line-height: 1.0;
+    letter-spacing: -2px; margin-bottom: 0.4rem;
+    animation: fadeUp 0.6s ease both 0.1s;
+  }
+  .hero-name span { color: var(--teal); }
+
+  .hero-title {
+    font-size: 1rem; color: var(--muted);
+    margin-bottom: 1.2rem; letter-spacing: 0.01em;
+    animation: fadeUp 0.6s ease both 0.2s;
+  }
+  .hero-sub {
+    font-size: 0.97rem; color: var(--muted);
+    max-width: 440px; margin-bottom: 2rem; line-height: 1.8;
+    animation: fadeUp 0.6s ease both 0.3s;
+  }
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.6s ease both 0.4s;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Hero right: floating stat cards */
+  .hero-visual {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column;
+    align-items: flex-end; gap: 1.2rem;
+    padding-right: 2rem;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.2rem 1.8rem;
+    text-align: center; min-width: 160px;
+    animation: fadeUp 0.8s ease both;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .stat-card:nth-child(1) { animation-delay: 0.2s; align-self: flex-end; }
+  .stat-card:nth-child(2) { animation-delay: 0.35s; align-self: center; }
+  .stat-card:nth-child(3) { animation-delay: 0.5s; align-self: flex-start; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.9rem; font-weight: 800; display: block; color: var(--text);
+  }
+  .stat-num span { color: var(--teal); }
+  .stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* circle decoration */
+  .hero-circle {
+    position: absolute; right: 8%; top: 50%;
+    width: 180px; height: 180px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
+  .hero-circle-inner {
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--teal); text-align: center; line-height: 1.4;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; padding-top: 6rem; }
+    .hero-visual { flex-direction: row; flex-wrap: wrap; align-items: flex-start; padding-right: 0; }
+    .stat-card { min-width: 130px; }
+    .hero-circle { display: none; }
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.75rem 1.6rem; border-radius: 6px;
+    font-weight: 600; font-size: 0.9rem;
+    text-decoration: none; transition: all 0.2s;
+    border: none; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
+  }
+  .btn-primary { background: var(--teal); color: var(--ink); }
+  .btn-primary:hover { background: var(--teal2); transform: translateY(-2px); }
+  .btn-outline { border: 1.5px solid var(--border); color: var(--text); background: transparent; }
+  .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+  .btn-gold { border: 1.5px solid var(--gold); color: var(--gold); background: transparent; }
+  .btn-gold:hover { background: rgba(240,180,41,0.1); }
+  .btn-white { background: #fff; color: var(--ink); font-weight: 700; justify-content: center; }
+  .btn-white:hover { background: var(--teal); color: var(--ink); }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 5rem 5%; position: relative; z-index: 1; }
+  section:nth-child(even) { background: var(--bg2); }
+
+  .section-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.6rem;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 28px; height: 2px;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    border-radius: 2px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 1.5rem; color: var(--text);
+  }
+
+  /* ─── ABOUT ─── */
+  .about-grid { display: grid; gap: 3rem; }
+  @media (min-width: 768px) { .about-grid { grid-template-columns: 1fr 1fr; } }
+
+  .about-text p { margin-bottom: 1rem; color: var(--muted); font-size: 0.97rem; line-height: 1.8; }
+  .about-text strong { color: var(--text); font-weight: 600; }
+
+  .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .skill-tag {
+    background: rgba(0,210,210,0.1); color: var(--teal);
+    border: 1px solid rgba(0,210,210,0.25);
+    font-size: 0.78rem; font-weight: 500;
+    padding: 0.3rem 0.8rem; border-radius: 4px;
+  }
+
+  .info-block {
+    background: var(--card); border-left: 3px solid var(--teal);
+    padding: 1.1rem 1.3rem; border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+  }
+  .info-block h4 {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 0.35rem;
+  }
+  .info-block p { font-size: 0.93rem; color: var(--muted); }
+  .info-block a { color: var(--teal); text-decoration: none; font-weight: 600; }
+
+  /* ─── PROJECTS ─── */
+  .github-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.2rem 1.8rem; margin-bottom: 2.5rem;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .github-banner-left { display: flex; align-items: center; gap: 0.8rem; }
+  .github-banner h3 { font-size: 1rem; font-weight: 600; color: var(--text); }
+  .github-banner p { font-size: 0.83rem; color: var(--muted); }
+
+  .projects-grid { display: grid; gap: 1.5rem; }
+  @media (min-width: 768px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .project-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    border-color: rgba(0,210,210,0.25);
+  }
+  .project-card-visual {
+    height: 150px; display: flex; align-items: center; justify-content: center;
+    font-size: 3.8rem; position: relative; overflow: hidden;
+  }
+  .project-card-visual::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%);
+  }
+  .project-card-visual.teal { background: linear-gradient(135deg, #071e1e 0%, #0a3030 50%, #0d4545 100%); color: var(--teal); }
+  .project-card-visual.gold { background: linear-gradient(135deg, #131000 0%, #1e1800 50%, #2a2200 100%); color: var(--gold); }
+  .project-card-visual.red  { background: linear-gradient(135deg, #130508 0%, #1e080e 50%, #2a0c14 100%); color: var(--red); }
+  .project-card-visual i { position: relative; z-index: 1; filter: drop-shadow(0 4px 16px currentColor); }
+
+  .project-card-body { padding: 1.4rem; }
+  .project-card-body h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text);
+  }
+  .project-card-body p { font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .project-tag {
+    font-size: 0.72rem; font-weight: 500; padding: 0.2rem 0.6rem;
+    border-radius: 4px; background: rgba(255,255,255,0.06); color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .project-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .tag-status {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.7rem;
+    border-radius: 4px; background: rgba(240,180,41,0.15); color: var(--gold);
+    border: 1px solid rgba(240,180,41,0.3);
+  }
+  .tag-github {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.7rem;
+    border-radius: 4px; background: rgba(255,255,255,0.06); color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.1); text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tag-github:hover { color: var(--teal); border-color: var(--teal); }
+  .tag-coursework {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.7rem;
+    border-radius: 4px; background: rgba(0,210,210,0.08); color: var(--teal);
+    border: 1px solid rgba(0,210,210,0.2);
+  }
+
+  /* ─── SERVICES ─── */
+  .services-grid { display: grid; gap: 1.5rem; }
+  @media (min-width: 768px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .service-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.8rem;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .service-card:hover {
+    border-color: rgba(0,210,210,0.3); transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .service-icon {
+    width: 56px; height: 56px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 1.3rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  .icon-teal { background: linear-gradient(135deg, rgba(0,210,210,0.18), rgba(0,168,168,0.08)); color: var(--teal); border: 1px solid rgba(0,210,210,0.25); }
+  .icon-gold { background: linear-gradient(135deg, rgba(240,180,41,0.18), rgba(200,140,20,0.08)); color: var(--gold); border: 1px solid rgba(240,180,41,0.25); }
+  .icon-red  { background: linear-gradient(135deg, rgba(224,82,99,0.18),  rgba(180,50,70,0.08));  color: var(--red);  border: 1px solid rgba(224,82,99,0.25); }
+  .icon-purple { background: linear-gradient(135deg, rgba(160,100,240,0.18), rgba(120,60,200,0.08)); color: #b67fff; border: 1px solid rgba(160,100,240,0.25); }
+
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; color: var(--text);
+  }
+  .service-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+  .service-meta { font-size: 0.75rem; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; }
+  .service-meta i { color: var(--teal); }
+
+  /* ─── AVAILABILITY / INFO GRID ─── */
+  .info-grid { display: grid; gap: 1.2rem; }
+  @media (min-width: 600px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) { .info-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+  /* ─── RATES ─── */
+  .rate-cards { display: grid; gap: 1.5rem; }
+  @media (min-width: 768px) { .rate-cards { grid-template-columns: repeat(3, 1fr); } }
+  .rate-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem; text-align: center;
+    transition: transform 0.2s;
+  }
+  .rate-card:hover { transform: translateY(-3px); }
+  .rate-card.featured {
+    background: var(--teal); border-color: var(--teal); color: var(--ink);
+  }
+  .rate-card.featured .rate-type,
+  .rate-card.featured .rate-note { color: rgba(10,15,26,0.65); }
+  .rate-card.featured .rate-amount { color: var(--ink); }
+  .rate-type {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem;
+  }
+  .rate-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text);
+  }
+  .rate-note { font-size: 0.83rem; color: var(--muted); }
+
+  /* ─── WHY ─── */
+  .why-list { list-style: none; }
+  .why-list li {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1rem 0; border-bottom: 1px solid var(--border);
+  }
+  .why-list li:last-child { border-bottom: none; }
+  .why-icon {
+    width: 38px; height: 38px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+    background: rgba(0,210,210,0.1); color: var(--teal);
+  }
+  .why-text strong { display: block; font-weight: 600; margin-bottom: 0.2rem; color: var(--text); }
+  .why-text span { font-size: 0.9rem; color: var(--muted); }
+
+  /* ─── CONTACT ─── */
+  #contact { background: var(--bg2) !important; }
+  .contact-grid { display: grid; gap: 3rem; }
+  @media (min-width: 768px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+
+  .contact-item { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.2rem; }
+  .contact-icon {
+    width: 46px; height: 46px;
+    background: rgba(0,210,210,0.1); border: 1px solid rgba(0,210,210,0.2);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; color: var(--teal); flex-shrink: 0;
+  }
+  .contact-item-text small {
+    display: block; font-size: 0.7rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 0.1rem;
+  }
+  .contact-item-text a, .contact-item-text span {
+    color: var(--text); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .contact-item-text a:hover { color: var(--teal); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input,
+  .contact-form textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.85rem 1rem;
+    color: var(--text); font-family: 'Space Grotesk', sans-serif; font-size: 0.93rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: var(--muted); }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--teal); }
+  .contact-form textarea { resize: vertical; min-height: 120px; }
+
+  /* ─── LOCATION ─── */
+  .comm-tools { background: var(--card); border-radius: 10px; padding: 1.8rem; border: 1px solid var(--border); }
+  .comm-tools h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 1.4rem; color: var(--text); }
+  .comm-tools ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+  .comm-tools li {
+    display: flex; align-items: center; gap: 1rem;
+    color: var(--text); font-size: 0.93rem; font-weight: 500;
+    padding: 0.6rem 0.8rem; border-radius: 8px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .comm-tools li:hover { border-color: rgba(0,210,210,0.2); background: rgba(0,210,210,0.04); }
+  .comm-tools .tool-icon {
+    width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #060a12; color: var(--muted);
+    text-align: center; padding: 1.6rem;
+    font-size: 0.82rem; border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+  footer strong { color: var(--text); }
+
+  /* ─── SCROLL TOP ─── */
+  #scroll-top {
+    position: fixed; bottom: 2rem; right: 2rem;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--teal); color: var(--ink);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; z-index: 150;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s, transform 0.2s;
+    box-shadow: 0 4px 20px rgba(0,210,210,0.35);
+  }
+  #scroll-top.visible { opacity: 1; pointer-events: auto; }
+  #scroll-top:hover { transform: translateY(-3px); }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<button id="scroll-top" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="bi bi-arrow-up"></i>
+</button>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" href="#hero">XM<span>.data</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#availability">Experience</a></li>
+    <li><a href="#why">Why Me</a></li>
+    <li><a href="#rates">Rates</a></li>
+    <li><a href="#contact" class="nav-hire">Hire Me</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" class="mob-link">About</a>
+  <a href="#services" class="mob-link">Services</a>
+  <a href="#projects" class="mob-link">Projects</a>
+  <a href="#availability" class="mob-link">Experience</a>
+  <a href="#why" class="mob-link">Why Me</a>
+  <a href="#rates" class="mob-link">Rates</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- floating dots -->
+  <div class="dot" style="width:8px;height:8px;background:#00d2d2;top:18%;left:52%;animation-duration:4s;animation-delay:0s;opacity:0.7;"></div>
+  <div class="dot" style="width:5px;height:5px;background:#f0b429;top:72%;left:58%;animation-duration:5s;animation-delay:1s;opacity:0.6;"></div>
+  <div class="dot" style="width:6px;height:6px;background:#00d2d2;top:85%;left:48%;animation-duration:6s;animation-delay:2s;opacity:0.5;"></div>
+
+  <div class="hero-content">
+    <span class="hero-tag">Available for freelance work</span>
+    <h1 class="hero-name">Xola<br><span>Mtintweni</span></h1>
+    <p class="hero-title">Data Scientist specialising in Python, SQL &amp; statistical<br>analysis — with a focus on marine and maritime data<br>applications in South Africa.</p>
+    <div class="hero-ctas" style="margin-top:2rem;">
+      <a class="btn btn-primary" href="#contact">
+        <i class="bi bi-person-fill"></i> Hire Me
+      </a>
+      <a class="btn btn-outline" href="#projects">
+        <i class="bi bi-folder2-open"></i> View Projects
+      </a>
+      <a class="btn btn-gold" href="https://github.com/xola1917" target="_blank">
+        <i class="bi bi-github"></i> GitHub
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <!-- circle decoration -->
+    <div class="hero-circle" style="position:relative;width:180px;height:180px;border-radius:50%;border:1.5px solid rgba(0,210,210,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;order:2;">
+      <div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);text-align:center;line-height:1.5;font-weight:700;">DATA<br>SCIENCE</div>
+    </div>
+    <div class="stat-card" style="order:1;">
+      <span class="stat-num">$<span>15</span>/hr</span>
+      <span class="stat-label">Starting Rate</span>
+    </div>
+    <div class="stat-card" style="order:3;">
+      <span class="stat-num"><span>3+</span></span>
+      <span class="stat-label">Platforms</span>
+    </div>
+    <div class="stat-card" style="order:4;">
+      <span class="stat-num"><span>15</span>mo</span>
+      <span class="stat-label">ALX Programme</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">Who</p>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>My full name is <strong>Xola Mtintweni</strong>. I am a Data Science student and freelancer based in Gqeberha (Port Elizabeth), South Africa. I am currently studying a <strong>BSc in Computer Science with Statistics</strong> at <strong>Nelson Mandela University (NMU)</strong> and completing the <strong>ALX Data Science Programme</strong>, building practical skills in machine learning, data analysis, and Python development.</p>
+      <p>I am also completing the <strong>ALX Data Engineering Programme</strong> — gaining industry-relevant skills in data pipelines, ETL processes, database engineering, and cloud data infrastructure through practical, project-based learning.</p>
+      <p>I have a deep interest in applying data science to the <strong>ocean economy and maritime sector</strong> — an underserved niche with enormous analytical opportunity. I am active on Upwork, Fiverr, and NoSweat, building a track record of delivering clear, honest, useful analysis for real clients.</p>
+      <p>I am also completing the <strong>Umuzi Work-Integrated Learning (WIL) Programme</strong>, sharpening my freelance business skills alongside my technical capabilities.</p>
+
+      <!-- Certification badge -->
+      <div style="display:inline-flex;align-items:center;gap:0.8rem;background:rgba(0,210,210,0.08);border:1px solid rgba(0,210,210,0.25);border-radius:8px;padding:0.75rem 1.1rem;margin-top:0.8rem;margin-bottom:0.4rem;">
+        <div style="width:36px;height:36px;background:rgba(0,210,210,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--teal);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <div>
+          <div style="font-size:0.78rem;font-weight:700;color:var(--teal);letter-spacing:0.05em;">CERTIFIED FREELANCER</div>
+          <div style="font-size:0.82rem;color:var(--muted);">ALX Ventures Freelancer Academy · Completed March 2026</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.2rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;">Data Science Skills</div>
+        <div class="skills-list" style="margin-top:0;">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">Matplotlib</span>
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Excel</span>
+          <span class="skill-tag">Jupyter</span>
+          <span class="skill-tag">Git &amp; GitHub</span>
+          <span class="skill-tag">Marine Data</span>
+        </div>
+      </div>
+      <div style="margin-top:1rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;">Data Engineering Skills</div>
+        <div class="skills-list" style="margin-top:0;">
+          <span class="skill-tag" style="background:rgba(240,180,41,0.1);color:var(--gold);border-color:rgba(240,180,41,0.25);">ETL Pipelines</span>
+          <span class="skill-tag" style="background:rgba(240,180,41,0.1);color:var(--gold);border-color:rgba(240,180,41,0.25);">Data Warehousing</span>
+          <span class="skill-tag" style="background:rgba(240,180,41,0.1);color:var(--gold);border-color:rgba(240,180,41,0.25);">PostgreSQL</span>
+          <span class="skill-tag" style="background:rgba(240,180,41,0.1);color:var(--gold);border-color:rgba(240,180,41,0.25);">Cloud Data Infra</span>
+          <span class="skill-tag" style="background:rgba(240,180,41,0.1);color:var(--gold);border-color:rgba(240,180,41,0.25);">Database Design</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="info-block">
+        <h4>Education</h4>
+        <p>BSc Computer Science with Statistics<br>Nelson Mandela University (NMU)<br>ALX Data Science Programme<br>ALX Data Engineering Programme</p>
+      </div>
+      <div class="info-block" style="border-left-color:var(--gold);">
+        <h4 style="color:var(--gold);">Certification</h4>
+        <p>Certified Freelancer — ALX Ventures<br>Freelancer Academy · March 2026</p>
+      </div>
+      <div class="info-block">
+        <h4>Freelance Platforms</h4>
+        <p>Upwork · Fiverr · NoSweat</p>
+      </div>
+      <div class="info-block">
+        <h4>Niche Focus</h4>
+        <p>Marine &amp; Maritime Data Science</p>
+      </div>
+      <div class="info-block">
+        <h4>GitHub</h4>
+        <p><a href="https://github.com/xola1917" target="_blank">github.com/xola1917</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-label">What</p>
+  <h2 class="section-title">Services</h2>
+  <div class="services-grid">
+    <!-- Data Analysis & EDA: rows/table icon -->
+    <div class="service-card reveal">
+      <div class="service-icon icon-teal">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/>
+        </svg>
+      </div>
+      <h3>Data Analysis &amp; EDA</h3>
+      <p>Clean, explore and analyse your datasets to uncover patterns, outliers and actionable insights — delivered with full documentation.</p>
+    </div>
+    <!-- Python Development: Python logo SVG -->
+    <div class="service-card reveal">
+      <div class="service-icon icon-gold">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.007 2.752h5.814v.826H3.887S0 5.789 0 11.969c0 6.18 3.403 5.96 3.403 5.96h2.031v-2.867s-.109-3.42 3.35-3.42h5.769s3.24.052 3.24-3.13V3.19S18.28 0 11.914 0zm-3.2 1.848a1.047 1.047 0 1 1 0 2.094 1.047 1.047 0 0 1 0-2.094z"/>
+          <path d="M12.086 24c6.094 0 5.714-2.656 5.714-2.656l-.007-2.752H12v-.826h8.113S24 18.211 24 12.031c0-6.18-3.403-5.96-3.403-5.96H18.566v2.867s.109 3.42-3.35 3.42H9.447s-3.24-.052-3.24 3.13v5.292S5.72 24 12.086 24zm3.2-1.848a1.047 1.047 0 1 1 0-2.094 1.047 1.047 0 0 1 0 2.094z"/>
+        </svg>
+      </div>
+      <h3>Python Development</h3>
+      <p>Custom Python scripts and Jupyter notebooks for data processing, automation, statistical analysis and pipeline development.</p>
+    </div>
+    <!-- SQL & Database: stacked cylinders -->
+    <div class="service-card reveal">
+      <div class="service-icon icon-red">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v5c0 1.657 4.03 3 9 3s9-1.343 9-3V5"/><path d="M3 10v5c0 1.657 4.03 3 9 3s9-1.343 9-3v-5"/><path d="M3 15v4c0 1.657 4.03 3 9 3s9-1.343 9-3v-4"/>
+        </svg>
+      </div>
+      <h3>SQL &amp; Database Work</h3>
+      <p>Complex query writing, database schema design, data extraction and transformation using SQL across multiple platforms.</p>
+    </div>
+    <!-- Data Visualisation: bar chart rising -->
+    <div class="service-card reveal">
+      <div class="service-icon icon-teal">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+        </svg>
+      </div>
+      <h3>Data Visualisation</h3>
+      <p>Transform raw numbers into compelling charts, dashboards and visual reports that communicate clearly to any audience.</p>
+    </div>
+    <!-- Marine Data Science: waves -->
+    <div class="service-card reveal">
+      <div class="service-icon" style="background:linear-gradient(135deg,rgba(0,180,220,0.18),rgba(0,130,180,0.08));color:#00c8e0;border:1px solid rgba(0,180,220,0.25);width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.3rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5s2.5 2 5 2 2.5-2 5-2 2.5 2 2.5 2"/><path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11s2.5 2 5 2 2.5-2 5-2 2.5 2 2.5 2"/><path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17s2.5 2 5 2 2.5-2 5-2 2.5 2 2.5 2"/>
+        </svg>
+      </div>
+      <h3>Marine Data Science</h3>
+      <p>Specialist analysis for marine, maritime and coastal sectors — oceanographic datasets, port data and environmental monitoring.</p>
+    </div>
+    <!-- Statistical Analysis: calculator -->
+    <div class="service-card reveal">
+      <div class="service-icon icon-purple">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10" stroke-width="2.5"/><line x1="12" y1="10" x2="12" y2="10" stroke-width="2.5"/><line x1="16" y1="10" x2="16" y2="10" stroke-width="2.5"/><line x1="8" y1="14" x2="8" y2="14" stroke-width="2.5"/><line x1="12" y1="14" x2="12" y2="14" stroke-width="2.5"/><line x1="16" y1="14" x2="16" y2="14" stroke-width="2.5"/><line x1="8" y1="18" x2="8" y2="18" stroke-width="2.5"/><line x1="12" y1="18" x2="12" y2="18" stroke-width="2.5"/><line x1="16" y1="18" x2="16" y2="18" stroke-width="2.5"/>
+        </svg>
+      </div>
+      <h3>Statistical Analysis</h3>
+      <p>Hypothesis testing, regression analysis, probability modelling and statistical interpretation for research and business applications.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2 class="section-title">My Projects</h2>
+  <div class="github-banner reveal">
+    <div class="github-banner-left">
+      <i class="bi bi-github" style="font-size:1.4rem;color:var(--text);"></i>
+      <div>
+        <h3>All project code on GitHub</h3>
+        <p>Source code, notebooks and documentation available at github.com/Xola1917</p>
+      </div>
+    </div>
+    <a class="btn btn-gold" href="https://github.com/xola1917" target="_blank">
+      <i class="bi bi-box-arrow-up-right"></i> View GitHub
+    </a>
+  </div>
+
+  <div class="projects-grid reveal">
+    <div class="project-card">
+      <div class="project-card-visual teal">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5s2.5 2 5 2 2.5-2 5-2 2.5 2 2.5 2"/><path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11s2.5 2 5 2 2.5-2 5-2 2.5 2 2.5 2"/><path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17s2.5 2 5 2 2.5-2 5-2 2.5 2 2.5 2"/>
+        </svg>
+      </div>
+      <div class="project-card-body">
+        <h3>SA Coastal Data Analysis</h3>
+        <p>Exploratory analysis of South African coastal monitoring data from SAEON. Identifying temperature patterns, anomalies, and seasonal trends.</p>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Pandas</span>
+          <span class="project-tag">Matplotlib</span>
+          <span class="project-tag">EDA</span>
+        </div>
+        <div class="project-actions">
+          <span class="tag-status"><i class="bi bi-hourglass-split"></i> In Progress</span>
+          <a class="tag-github" href="https://github.com/xola1917" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+        </div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-card-visual gold">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+        </svg>
+      </div>
+      <div class="project-card-body">
+        <h3>Sales Data EDA &amp; Dashboard</h3>
+        <p>End-to-end exploratory data analysis on a retail sales dataset — cleaning, statistical summary, correlation analysis and visualisation.</p>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">NumPy</span>
+          <span class="project-tag">Seaborn</span>
+          <span class="project-tag">Jupyter</span>
+        </div>
+        <div class="project-actions">
+          <span class="tag-status"><i class="bi bi-hourglass-split"></i> In Progress</span>
+          <a class="tag-github" href="https://github.com/xola1917" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+        </div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-card-visual red">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v5c0 1.657 4.03 3 9 3s9-1.343 9-3V5"/><path d="M3 10v5c0 1.657 4.03 3 9 3s9-1.343 9-3v-5"/><path d="M3 15v4c0 1.657 4.03 3 9 3s9-1.343 9-3v-4"/>
+        </svg>
+      </div>
+      <div class="project-card-body">
+        <h3>Database Design Project</h3>
+        <p>Relational database design from ER diagram to 3NF normalisation, with complex SQL queries including multi-table JOINs and aggregations.</p>
+        <div class="project-tags">
+          <span class="project-tag">SQL</span>
+          <span class="project-tag">ER Diagram</span>
+          <span class="project-tag">Normalisation</span>
+        </div>
+        <div class="project-actions">
+          <span class="tag-coursework"><i class="bi bi-mortarboard-fill"></i> NMU Coursework</span>
+          <a class="tag-github" href="https://github.com/xola1917" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVAILABILITY -->
+<section id="availability">
+  <p class="section-label">When</p>
+  <h2 class="section-title">Availability</h2>
+  <div class="info-grid reveal">
+    <div class="info-block">
+      <h4>Working Days</h4>
+      <p>Monday – Friday (primary), Saturdays available for urgent work</p>
+    </div>
+    <div class="info-block">
+      <h4>Working Hours</h4>
+      <p>08:00 – 17:00 SAST (South Africa Standard Time, UTC+2)</p>
+    </div>
+    <div class="info-block">
+      <h4>Response Time</h4>
+      <p>Within 24 hours on weekdays. I acknowledge all enquiries same day.</p>
+    </div>
+    <div class="info-block">
+      <h4>Start Date</h4>
+      <p>Available immediately. Projects welcome from April 2026 onwards.</p>
+    </div>
+    <div class="info-block">
+      <h4>Academic Commitments</h4>
+      <p>I manage academic and freelance work in parallel. Exam periods (May–June, Oct–Nov) may reduce availability — communicated proactively.</p>
+    </div>
+    <div class="info-block">
+      <h4>Project Turnaround</h4>
+      <p>Small tasks: 24–48 hrs. Standard projects: 3–7 days. Larger scopes negotiated upfront.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <p class="section-label">Where</p>
+  <h2 class="section-title">Work Location</h2>
+  <div class="about-grid">
+    <div class="info-grid reveal">
+      <div class="info-block">
+        <h4>Remote Work</h4>
+        <p>Fully remote-capable. I work with clients across South Africa and internationally via Upwork, email, and video call.</p>
+      </div>
+      <div class="info-block">
+        <h4>On-Site (Local)</h4>
+        <p>Available for on-site work in <strong>Gqeberha (Port Elizabeth)</strong> and surrounding Eastern Cape areas by arrangement.</p>
+      </div>
+      <div class="info-block">
+        <h4>Preferred Setup</h4>
+        <p>Hybrid — remote first, with occasional in-person meetings in the Eastern Cape.</p>
+      </div>
+      <div class="info-block">
+        <h4>Time Zone Flexibility</h4>
+        <p>SAST (UTC+2). I can accommodate early or late meetings for US or EU clients.</p>
+      </div>
+    </div>
+    <div class="comm-tools reveal">
+      <h3>Communication Tools</h3>
+      <ul>
+        <li>
+          <span class="tool-icon" style="background:rgba(0,210,210,0.12);color:var(--teal);border:1px solid rgba(0,210,210,0.2);">
+            <!-- Envelope -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          </span>
+          Email (primary)
+        </li>
+        <li>
+          <span class="tool-icon" style="background:rgba(52,211,153,0.12);color:#34d399;border:1px solid rgba(52,211,153,0.2);">
+            <!-- Briefcase / Upwork -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12" stroke-width="3"/><path d="M2 12h20"/></svg>
+          </span>
+          Upwork Messenger
+        </li>
+        <li>
+          <span class="tool-icon" style="background:rgba(37,211,102,0.12);color:#25d366;border:1px solid rgba(37,211,102,0.2);">
+            <!-- Chat bubble / WhatsApp -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </span>
+          WhatsApp (local clients)
+        </li>
+        <li>
+          <span class="tool-icon" style="background:rgba(66,133,244,0.12);color:#4285f4;border:1px solid rgba(66,133,244,0.2);">
+            <!-- Video camera / Meet -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </span>
+          Google Meet / Zoom
+        </li>
+        <li>
+          <span class="tool-icon" style="background:rgba(255,255,255,0.08);color:var(--text);border:1px solid rgba(255,255,255,0.12);">
+            <!-- GitHub octocat outline -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </span>
+          GitHub (project delivery)
+        </li>
+        <li>
+          <span class="tool-icon" style="background:rgba(234,67,53,0.12);color:#ea4335;border:1px solid rgba(234,67,53,0.2);">
+            <!-- Drive / folder with arrow -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="2 20 8 9 22 9 16 20 2 20"/><polygon points="9 4 15 4 22 9 8 9 9 4"/></svg>
+          </span>
+          Google Drive (file sharing)
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- WHY HIRE ME -->
+<section id="why">
+  <p class="section-label">Why</p>
+  <h2 class="section-title">Why Hire Me</h2>
+  <div class="about-grid">
+    <ul class="why-list reveal">
+      <li>
+        <div class="why-icon"><i class="bi bi-check2-circle"></i></div>
+        <div class="why-text">
+          <strong>I deliver what I promise</strong>
+          <span>I under-promise and over-deliver. If I accept a project, I complete it on time and to spec — and communicate proactively if anything changes.</span>
+        </div>
+      </li>
+      <li>
+        <div class="why-icon"><i class="bi bi-chat-quote-fill"></i></div>
+        <div class="why-text">
+          <strong>Plain-language communication</strong>
+          <span>I explain technical findings clearly — no jargon. You'll always understand what your data is telling you, not just receive a pile of numbers.</span>
+        </div>
+      </li>
+      <li>
+        <div class="why-icon"><i class="bi bi-shield-check"></i></div>
+        <div class="why-text">
+          <strong>Honest about my level</strong>
+          <span>I'm an emerging professional, not a 10-year veteran. I charge accordingly and won't take on work outside my current capability — I'll say so upfront.</span>
+        </div>
+      </li>
+    </ul>
+    <ul class="why-list reveal">
+      <li>
+        <div class="why-icon"><i class="bi bi-water"></i></div>
+        <div class="why-text">
+          <strong>Unique marine data niche</strong>
+          <span>If your work touches the ocean economy — fishing, shipping, coastal monitoring — I'm one of very few freelancers building specific expertise here.</span>
+        </div>
+      </li>
+      <li>
+        <div class="why-icon"><i class="bi bi-arrow-repeat"></i></div>
+        <div class="why-text">
+          <strong>Easy to work with</strong>
+          <span>I respond quickly, take feedback well, and iterate without drama. My goal is to make your experience smooth and the output genuinely useful.</span>
+        </div>
+      </li>
+      <li>
+        <div class="why-icon"><i class="bi bi-geo-alt-fill"></i></div>
+        <div class="why-text">
+          <strong>South African context &amp; rates</strong>
+          <span>I understand local business needs and offer competitive rates for SA clients — while serving international clients effectively via remote platforms.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- RATES -->
+<section id="rates">
+  <p class="section-label">How Much</p>
+  <h2 class="section-title">My Rates</h2>
+  <p style="color:var(--muted); margin-bottom:2rem; max-width:540px; font-size:0.95rem;">
+    I price my work honestly based on my current skill level. These are starting rates — final quotes depend on project complexity and scope.
+  </p>
+  <div class="rate-cards reveal">
+    <div class="rate-card">
+      <p class="rate-type">Hourly</p>
+      <p class="rate-amount">R150–R250</p>
+      <p class="rate-note">Per hour · Best for small tasks, quick analyses, or consultation</p>
+    </div>
+    <div class="rate-card featured">
+      <p class="rate-type">Per Project</p>
+      <p class="rate-amount">R500–R3,000</p>
+      <p class="rate-note">Most popular · Fixed scope, clear deliverables, no surprises</p>
+    </div>
+    <div class="rate-card">
+      <p class="rate-type">Monthly Retainer</p>
+      <p class="rate-amount">R2,000+</p>
+      <p class="rate-note">Ongoing support · Ideal for businesses needing regular data work</p>
+    </div>
+  </div>
+  <p style="margin-top:1.5rem; font-size:0.86rem; color:var(--muted);">
+    International clients: rates quoted in USD on request. All rates negotiable for NGOs and community organisations. A 50% deposit is required before work begins on projects over R500.
+  </p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Contact</p>
+  <h2 class="section-title">Get In Touch</h2>
+  <div class="contact-grid">
+    <div class="reveal">
+      <p style="color:var(--muted); margin-bottom:1.8rem; font-size:0.95rem; line-height:1.8;">
+        Ready to work together? Reach out via any channel below. I respond within 24 hours on weekdays.
+      </p>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <small>Email</small>
+          <a href="mailto:xolamtintweni@gmail.com">xolamtintweni@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon" style="color:#25d366;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <small>Mobile / WhatsApp</small>
+          <a href="https://wa.me/27817635192" target="_blank">081 763 5192</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon" style="color:#0a66c2;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <small>LinkedIn</small>
+          <a href="https://www.linkedin.com/in/xola-mtintweni-220a1718a" target="_blank">linkedin.com/in/xola-mtintweni</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <small>GitHub</small>
+          <a href="https://github.com/xola1917" target="_blank">github.com/xola1917</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon" style="color:#4285f4;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <small>Portfolio Site</small>
+          <a href="https://xola1917.github.io" target="_blank">xola1917.github.io</a>
+        </div>
+      </div>
+    </div>
+    <form class="contact-form reveal" action="https://formspree.io/f/xjgjyngp" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="text" name="subject" placeholder="Subject (e.g. Data Analysis Project)">
+      <textarea name="message" placeholder="Tell me about your project or enquiry..."></textarea>
+      <button class="btn btn-primary" type="submit" style="justify-content:center;">
+        <i class="bi bi-send-fill"></i> Send Message
+      </button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <strong>Xola Mtintweni</strong> · Data Science Freelancer · Gqeberha, South Africa</p>
+</footer>
+
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+  const scrollBtn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
